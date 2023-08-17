@@ -1,0 +1,22 @@
+{
+ "host": "localhost",
+ "port": 5000,
+ "secretKey": "secret",
+ "frontendUrl": "http://localhost:3000",
+ "debug": true,
+ "timeouts": {
+   "login": "1d",
+   "refreshToken": "7d"
+ },
+ "database": {
+  "client": "pg",
+  "connection": "postgres://postgres:123@localhost:5432/chat_app",
+  "pool": {
+    "min": 2,
+    "max": 10
+  },
+  "migrations": {
+    "tableName": "knex_migrations"
+  }
+}
+}

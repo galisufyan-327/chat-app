@@ -1,0 +1,161 @@
+{
+	"info": {
+		"_postman_id": "b7d0c635-edda-46ed-b986-3cb0f59e2158",
+		"name": "ChatApp",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "18220564",
+		"_collection_link": "https://www.postman.com/speeding-capsule-639707/workspace/local/collection/18220564-b7d0c635-edda-46ed-b986-3cb0f59e2158?action=share&creator=18220564&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "SignUp",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"repo\",\n    \"email\": \"repo4@gmail.com\",\n    \"password\": \"123\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5000/api/v1/auth/sign-up"
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"repo54@gmail.com\",\n    \"password\": \"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5000/api/v1/auth/login"
+					},
+					"response": []
+				},
+				{
+					"name": "Profile Info",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJyZXBvNTRAZ21haWwuY29tIiwiaWF0IjoxNjkyMTIzMDU5LCJleHAiOjE2OTIyMDk0NTl9.raIjdi5YMHK8bpeinzrUFWkxwzqNSAueuBqkNMVbNBI"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:5000/api/v1/users/me"
+					},
+					"response": []
+				}
+			],
+			"description": "Requests for authorization."
+		},
+		{
+			"name": "List Users",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJyZXBvNTRAZ21haWwuY29tIiwiaWF0IjoxNjkyMTgzMjk2LCJleHAiOjE2OTIyNjk2OTZ9.BLdZgrcy8VdAtgmoKAX68CmfIoiEwF-5Egu8g3_cWXg"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:5000/api/v1/users"
+			},
+			"response": []
+		},
+		{
+			"name": "New Conversation",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJyZXBvNTRAZ21haWwuY29tIiwiaWF0IjoxNjkyMTgzMjk2LCJleHAiOjE2OTIyNjk2OTZ9.BLdZgrcy8VdAtgmoKAX68CmfIoiEwF-5Egu8g3_cWXg"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"participants\": [3],\n    \"type\": \"one_on_one\",\n    \"title\": \"Random\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:5000/api/v1/users/new-conversation"
+			},
+			"response": []
+		},
+		{
+			"name": "Send Message",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJyZXBvNTRAZ21haWwuY29tIiwiaWF0IjoxNjkyMjEzMjU5LCJleHAiOjE2OTIyOTk2NTl9.eMBJ1pR0lnciQH1Wtr4aidwuJVWKAVaMplb1ABC4WB8"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"content\": \"sadkfjasd\",\n  \"conversationId\": 1,\n  \"sendBy\": \"Junaid Sarfraz\",\n  \"senderId\": 3\n}\n    ",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:5000/api/v1/users/conversations/send-message"
+			},
+			"response": []
+		},
+		{
+			"name": "Conversations",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJyZXBvNTRAZ21haWwuY29tIiwiaWF0IjoxNjkyMTgzMjk2LCJleHAiOjE2OTIyNjk2OTZ9.BLdZgrcy8VdAtgmoKAX68CmfIoiEwF-5Egu8g3_cWXg"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:5000/api/v1/users/conversations"
+			},
+			"response": []
+		},
+		{
+			"name": "Conversation Detail",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJyZXBvNTRAZ21haWwuY29tIiwiaWF0IjoxNjkyMTgzMjk2LCJleHAiOjE2OTIyNjk2OTZ9.BLdZgrcy8VdAtgmoKAX68CmfIoiEwF-5Egu8g3_cWXg"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:5000/api/v1/users/conversations/1"
+			},
+			"response": []
+		}
+	]
+}
