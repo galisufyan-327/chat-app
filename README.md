@@ -67,3 +67,8 @@ This command will execute the tests and display the test results in the terminal
 
 ## POSTMAN
 To check the postman requests postman collection is attached.
+
+## Improvements
+
+1. Implement search functionality in message threads section
+2. Implement search functionality in chat messages.

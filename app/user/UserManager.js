@@ -42,6 +42,8 @@ class UserManager {
     });
 
     await ParticipantsHandler.createRoomParticipant(participantRecords);
+    const conversation = await ConverstionHandler.getConversationById(converstaion.id);
+    Socket.io.emit("new-conversation", conversation);
   }
 
   static async getConversations({ id }) {
@@ -65,9 +67,7 @@ class UserManager {
 
     const [response] = await MessageHandler.saveMessageDetails(data);
 
-    console.log(response)
-
-    Socket.io.to(conversationId).emit("message", response)
+    Socket.io.to(conversationId + '-conversation').emit("message", response)
 
   }
 }

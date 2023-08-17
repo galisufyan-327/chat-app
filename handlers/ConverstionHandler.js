@@ -1,20 +1,58 @@
-
-const {
-  knex
-} = require('../helpers');
+const { knex } = require("../helpers");
 
 class ConverstionHandler {
-
-  static createNewConversation ({ title = '', type = "one_on_one" }) {
-    return knex('conversations').insert({ title, type }, ['id']);
+  static createNewConversation({ title = "", type = "one_on_one" }) {
+    return knex("conversations").insert({ title, type }, ["id"]);
   }
 
   static getConversations(userId) {
-    return knex('conversations')
-      .join('participants', 'conversations.id', '=', 'participants.conversation_id')
-      .join('users', 'participants.user_id', '=', 'users.id')
-      .select('conversations.*', 'users.username', 'participants.*')
-      .where('participants.user_id', userId);
+    const subquery = knex("participants")
+      .distinct("conversation_id")
+      .where("user_id", userId)
+      .as("user_conversations");
+
+    return knex("conversations")
+      .select("conversations.*")
+      .select(
+        knex.raw(
+          `CASE
+            WHEN conversations.type = 'one_on_one'
+            THEN JSON_AGG(
+              json_build_object('user_id', participants.user_id, 'username', users.username, 'conversation_id', participants.conversation_id, 'created_at', participants.created_at, 'participant_id', participants.participant_id, 'updated_at', participants.updated_at
+            ))
+            ELSE JSON_AGG(participants.*)
+          END as participants`
+        )
+      )
+      .join(
+        "participants",
+        "conversations.id",
+        "=",
+        "participants.conversation_id"
+      )
+      .leftJoin("users", "participants.user_id", "=", "users.id")
+      .join(
+        subquery,
+        "conversations.id",
+        "=",
+        "user_conversations.conversation_id"
+      )
+      .groupBy("conversations.id");
+  }
+
+  static getConversationById(id) {
+    return knex("conversations")
+      .select("conversations.*")
+      .select(knex.raw("JSON_AGG(participants.*) as participants"))
+      .join(
+        "participants",
+        "conversations.id",
+        "=",
+        "participants.conversation_id"
+      )
+      .where("conversations.id", id)
+      .groupBy("conversations.id")
+      .first();
   }
 
   static getConverstaionMessages(conversationId) {
