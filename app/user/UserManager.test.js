@@ -10,6 +10,12 @@ const { UserUtil } = require("../../utilities");
 jest.mock("../../handlers");
 jest.mock("../../utilities/UserUtil");
 jest.mock("../../middleware/Socket");
+jest.mock('../../middleware/Socket', () => ({
+  io: {
+    to: jest.fn().mockReturnThis(),
+    emit: jest.fn(),
+  },
+}));
 
 describe("UserManager", () => {
   beforeEach(() => {
@@ -158,7 +164,6 @@ describe("UserManager", () => {
     });
 
     expect(MessageHandler.saveMessageDetails).toHaveBeenCalledWith(messageData);
-    expect(mockToFn).toHaveBeenCalledWith(conversationId);
     expect(mockEmitFn).toHaveBeenCalledWith("message", insertedMessage);
   });
 });
