@@ -15,13 +15,10 @@ class ConverstionHandler {
       .select("conversations.*")
       .select(
         knex.raw(
-          `CASE
-            WHEN conversations.type = 'one_on_one'
-            THEN JSON_AGG(
-              json_build_object('user_id', participants.user_id, 'username', users.username, 'conversation_id', participants.conversation_id, 'created_at', participants.created_at, 'participant_id', participants.participant_id, 'updated_at', participants.updated_at
-            ))
-            ELSE JSON_AGG(participants.*)
-          END as participants`
+          `JSON_AGG(
+            json_build_object('user_id', participants.user_id, 'username', users.username, 'conversation_id', participants.conversation_id, 'created_at', participants.created_at, 'participant_id', participants.participant_id, 'updated_at', participants.updated_at
+          ))
+          as participants`
         )
       )
       .join(
@@ -43,13 +40,21 @@ class ConverstionHandler {
   static getConversationById(id) {
     return knex("conversations")
       .select("conversations.*")
-      .select(knex.raw("JSON_AGG(participants.*) as participants"))
+      .select(
+        knex.raw(
+          `JSON_AGG(
+            json_build_object('user_id', participants.user_id, 'username', users.username, 'conversation_id', participants.conversation_id, 'created_at', participants.created_at, 'participant_id', participants.participant_id, 'updated_at', participants.updated_at
+          ))
+          as participants`
+        )
+      )
       .join(
         "participants",
         "conversations.id",
         "=",
         "participants.conversation_id"
       )
+      .leftJoin("users", "participants.user_id", "=", "users.id")
       .where("conversations.id", id)
       .groupBy("conversations.id")
       .first();
